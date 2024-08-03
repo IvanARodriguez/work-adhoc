@@ -4,20 +4,13 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
 type Job struct {
 	ID          uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary key" json:"id"`
-	Title       *string   `json:"title"`
-	Salary      uint32    `json:"salary"`
-	Description *string   `json:"description"`
-	EmployerID  *string   `json:"employerId"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-}
-
-func MigrateJobs(db *gorm.DB) error {
-	err := db.AutoMigrate(&Job{})
-	return err
+	Title       string    `gorm:"not null; type:varchar(250)" json:"title"`
+	Salary      string    `gorm:"not null; type:money" json:"salary"`
+	Description string    `gorm:"not null" json:"description"`
+	CreatedAt   time.Time `gorm:"not null" json:"createdAt"`
+	UpdatedAt   time.Time `gorm:"not null" json:"updatedAt"`
 }

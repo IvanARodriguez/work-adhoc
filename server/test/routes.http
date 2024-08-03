@@ -1,0 +1,18 @@
+### Create a job
+POST http://localhost:9090/api/jobs
+Content-Type: application/json
+
+{
+  "salary": "109000",
+  "title": "Web Developer",
+  "description": "This position you will be working closely with software engineers of higher levels"
+}
+
+### Get all Jobs
+GET http://localhost:9090/api/jobs
+
+### Get the created job by ID
+GET http://localhost:9090/api/jobs/944f08c0-f542-4011-8a4d-07ea483a5fd5
+
+### Delete the Job
+DELETE http://localhost:9090/api/jobs/944f08c0-f542-4011-8a4d-07ea483a5fd5
