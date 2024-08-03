@@ -1,42 +1,32 @@
-# Work-Ad-Hoc
+# Work-AdHoc
 
-Work-Ad-Hoc is a platform where employers can post their available jobs. This project is designed using microservices architecture, Domain-Driven Design (DDD), and Test-Driven Development (TDD). It is implemented in Go.
+Work-AdHoc is a platform where employers can post their available jobs. The idea overtime is to use microservices, Domain-Driven Design (DDD), and Test-Driven Development (TDD). It is implemented in Go.
 
 ## Table of Contents
 
 - [Features](#features)
-- [Architecture](#architecture)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
   - [Running Tests](#running-tests)
-- [Directory Structure](#directory-structure)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Features
 
+- Use PostgreSQL open source database
 - Employers can post job listings.
 - Microservices architecture.
 - Domain-Driven Design (DDD).
 - Test-Driven Development (TDD).
 
-## Architecture
-
-The project is divided into several microservices:
-
-- **Job Service**: Manages job postings.
-- **User Service**: Manages employers and users (planned for future development).
-- **Notification Service**: Handles notifications to users (planned for future development).
-- **Auth Service**: Manages authentication and authorization (planned for future development).
-
 ## Getting Started
 
 ### Prerequisites
 
-- [Go](https://golang.org/dl/) 1.17 or higher
+- [Go](https://golang.org/dl/) 1.22.5 or higher
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
@@ -53,6 +43,21 @@ The project is divided into several microservices:
    ```bash
    go mod tidy
    ```
+
+### Environment Variables
+
+1. Create a file named .env within server folder
+
+2. Add the following environment variables to the file:
+
+```bash
+  DB_HOST=<Database host>
+  DB_PORT=<Database port>
+  DB_USER=<Database username>
+  DB_PASS=<Database password>
+  DB_NAME=<Database name>
+  DB_SSL_MODE=<Database SSL mode>
+```
 
 ### Running the Application
 
@@ -71,40 +76,17 @@ The project is divided into several microservices:
    go test ./...
    ```
 
-## Directory Structure
-
-```plaintext
-work-adhoc/
-├── main.go
-├── domain/
-│   ├── job.go
-│   ├── job_repository.go
-│   └── job_service.go
-├── application/
-│   ├── job_command.go
-│   ├── job_query.go
-│   └── job_handler.go
-├── infrastructure/
-│   └── persistence/
-│       └── job_repository_db.go
-└── interfaces/
-|   └── api/
-|       └── job_controller.go
-├── Dockerfile
-├── docker-compose.yml
-├── go.mod
-├── go.sum
-├── README.md
-└── .gitignore
-```
-
 ## API Endpoints
 
 Job Service
 
-```http
-  POST /jobs: Create a new job.
-  GET /jobs: Retrieve all jobs.
+```
+  |--> /api
+  |------>/job
+  |----------> POST : Create a job
+  |----------> DELETE : Remove a job
+  |----------> GET : Retrieve all jobs
+  |----------> GET:ID : Get job by its ID
 ```
 
 ## Contributing
