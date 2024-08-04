@@ -13,4 +13,6 @@ type Job struct {
 	Description string    `gorm:"not null" json:"description"`
 	CreatedAt   time.Time `gorm:"not null" json:"createdAt"`
 	UpdatedAt   time.Time `gorm:"not null" json:"updatedAt"`
+	UserID      uuid.UUID `gorm:"type:uuid;not null"` // Foreign key
+	User        User      `gorm:"foreignKey:UserID"`  // User relationship
 }

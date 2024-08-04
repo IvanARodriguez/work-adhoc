@@ -1,3 +1,11 @@
 {
-	"cSpell.words": ["github", "godotenv", "gorm", "initializers", "joho"]
+	"cSpell.words": [
+		"github",
+		"godotenv",
+		"gorm",
+		"initializers",
+		"joho",
+		"requestid",
+		"signup"
+	]
 }

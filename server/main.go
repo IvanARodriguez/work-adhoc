@@ -5,17 +5,8 @@ import (
 	initializers "work-adhoc/initializer"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
-
-func SetupRoutes(app *fiber.App) {
-	api := app.Group("/api")
-	// Jobs
-	jobsRoutes := api.Group("/jobs")
-	jobsRoutes.Post("/", controllers.CreateJob)
-	jobsRoutes.Delete("/:id", controllers.DeleteJob)
-	jobsRoutes.Get("/", controllers.GetJobs)
-	jobsRoutes.Get("/:id", controllers.GetJobById)
-}
 
 func init() {
 	initializers.LoadEnvVariables()
@@ -25,6 +16,7 @@ func init() {
 
 func main() {
 	app := fiber.New()
-	SetupRoutes(app)
+	app.Use(logger.New())
+	controllers.GetRoutes(app)
 	app.Listen(":9090")
 }
