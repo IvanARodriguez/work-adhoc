@@ -9,6 +9,7 @@ import JobsPage from './pages/JobsPage'
 import JobView from './pages/JobView'
 import { useActions } from './store'
 import { useLayoutEffect } from 'react'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
 	const actions = useActions()
@@ -20,6 +21,7 @@ function App() {
 			<Routes>
 				<Route path='/' element={<HomePage />} />
 				<Route path='/login' element={<LoginPage />} />
+				<Route path='/signup' element={<RegisterPage />} />
 				<Route path='/jobs' element={<JobsPage />} />
 				<Route path='/jobs/:id' element={<JobView />} />
 				<Route element={<PrivateRoute />}>

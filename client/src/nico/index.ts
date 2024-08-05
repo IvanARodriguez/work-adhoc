@@ -71,3 +71,26 @@ export async function confirmAuthentication() {
 
 	return validation
 }
+
+type RegistrationCreds = {
+	username: string
+	email: string
+	password: string
+}
+
+export async function registerAccount(creds: RegistrationCreds) {
+	const result = await fetch('/api/users/login', {
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(creds),
+	})
+
+	if (!result.ok) {
+		return createErrorResponse(result)
+	}
+
+	const user: User = await result.json()
+	return user
+}

@@ -10,6 +10,13 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@lexical/code": "^0.17.0",
+		"@lexical/link": "^0.17.0",
+		"@lexical/list": "^0.17.0",
+		"@lexical/react": "^0.17.0",
+		"@lexical/rich-text": "^0.17.0",
+		"@lexical/selection": "^0.17.0",
+		"lexical": "^0.17.0",
 		"moment": "^2.30.1",
 		"overmind": "^28.0.3",
 		"overmind-react": "^29.0.5",

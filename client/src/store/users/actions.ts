@@ -47,8 +47,6 @@ export async function verifyAuthentication({ state, effects }: Context) {
 	if (isErrorResponse(res)) {
 		state.users.isAuthenticated = false
 		state.users.isLoading = false
-		const { message } = await res.result.json()
-		state.users.loginError = message
 		return
 	}
 	state.users.loginError = ''

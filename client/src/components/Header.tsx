@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useState as overmindState, useActions } from '../store'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PageName } from '../types/helpers'
 
 const pageLinks: { name: PageName; link: string }[] = [
@@ -21,9 +21,12 @@ function Header() {
 	const unselectedLinkClasses =
 		'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
 
+	const navigate = useNavigate()
+
 	function handleLogout(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 		e.preventDefault()
 		actions.users.logout()
+		navigate('/login')
 	}
 
 	return (
@@ -97,9 +100,9 @@ function Header() {
 									<li>
 										<Link
 											className='block text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-3 py-1.5 text-center '
-											to={'/login'}
+											to={'/signup'}
 										>
-											Register
+											Signup
 										</Link>
 									</li>
 								</>
