@@ -6,6 +6,8 @@
 		"initializers",
 		"joho",
 		"requestid",
-		"signup"
-	]
+		"signup",
+		"tailwindcss"
+	],
+	"prettier.semi": false
 }

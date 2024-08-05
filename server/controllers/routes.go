@@ -1,15 +1,41 @@
 package controllers
 
 import (
+	"time"
 	"work-adhoc/middlewares"
+	"work-adhoc/models"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
-func Validate(c *fiber.Ctx) error {
-	c.JSON(&fiber.Map{"message": "Is Logged in"})
+type CleanUser struct {
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	ID        uuid.UUID `json:"id"`
+}
+
+func Validate(ctx *fiber.Ctx) error {
+	user := ctx.Locals("user").(models.User)
+
+	cleanUser := CleanUser{}
+	cleanUser.Username = user.Username
+	cleanUser.Email = user.Email
+	cleanUser.ID = user.ID
+	cleanUser.CreatedAt = user.CreatedAt
+	cleanUser.UpdatedAt = user.UpdatedAt
+
+	ctx.JSON(&fiber.Map{
+		"message":         "Is Logged in",
+		"isAuthenticated": true,
+		"user":            cleanUser,
+	})
+
 	return nil
 }
+
 func GetRoutes(app *fiber.App) {
 	withAuth := middlewares.WithAuthenticatedUser
 	api := app.Group("/api")

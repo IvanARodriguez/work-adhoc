@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"math"
 	"net/http"
 	"strconv"
@@ -27,7 +26,6 @@ type JobResponse struct {
 
 func CreateJob(ctx *fiber.Ctx) error {
 	user := ctx.Locals("user").(models.User)
-	fmt.Printf("Logged in user: %s", user.Username)
 	job := models.Job{}
 	job.UserID = user.ID
 	err := ctx.BodyParser(&job)

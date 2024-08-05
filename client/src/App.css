@@ -1,0 +1,10 @@
+.login-screen {
+	background: rgb(0, 45, 204);
+	background: linear-gradient(
+		28deg,
+		rgba(0, 45, 204, 1) 0%,
+		rgba(29, 0, 134, 1) 41%,
+		rgba(0, 111, 134, 1) 70%,
+		rgba(0, 212, 255, 1) 100%
+	);
+}

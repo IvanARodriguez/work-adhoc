@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 ### Get all Jobs
-GET http://localhost:9090/api/jobs?page=2&pageSize=1
+GET http://localhost:9090/api/jobs?page=1&pageSize=2
 
 
 ### Get the created job by ID
