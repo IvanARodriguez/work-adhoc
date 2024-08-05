@@ -1,23 +1,35 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { Link, Navigate } from 'react-router-dom'
 import Layout from '../components/Layout'
+import { useActions, useState } from '../store'
 
 function LoginPage() {
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-
+	const actions = useActions()
+	const { users } = useState()
+	function setUsername(e: React.ChangeEvent<HTMLInputElement>) {
+		const value = e.target.value ?? ''
+		actions.users.setCredential({ credType: 'username', value })
+	}
+	function setPassword(e: React.ChangeEvent<HTMLInputElement>) {
+		const value = e.target.value ?? ''
+		actions.users.setCredential({ credType: 'password', value })
+	}
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
-		// Handle form submission
-		console.log('Email:', email, 'Password:', password)
+		actions.users.login()
 	}
+
+	if (users.isAuthenticated) return <Navigate to={'/'} />
 	return (
 		<Layout>
-			<div className='flex items-center justify-center min-h-full   login-screen'>
+			<div className='flex items-center justify-center min-h-full  login-screen'>
 				<div className='w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md'>
-					<h2 className='text-2xl font-bold text-center text-gray-900'>
-						Login to your account
+					<h2 className='text-3xl font-bold text-center text-gray-900'>
+						Welcome Back
 					</h2>
+					<h3 className='text-2xl font-bold text-center text-gray-900'>
+						Login to your account
+					</h3>
 					<form className='mt-8 space-y-6' onSubmit={handleSubmit}>
 						<div className='rounded-md shadow-sm -space-y-px'>
 							<div>
@@ -26,14 +38,12 @@ function LoginPage() {
 								</label>
 								<input
 									id='email-address'
-									name='email'
-									type='email'
-									autoComplete='email'
+									name='username'
 									required
 									className='relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
 									placeholder='Email or Username'
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
+									value={users.credentials.username}
+									onChange={setUsername}
 								/>
 							</div>
 							<div>
@@ -48,11 +58,14 @@ function LoginPage() {
 									required
 									className='relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
 									placeholder='Password'
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
+									value={users.credentials.password}
+									onChange={setPassword}
 								/>
 							</div>
 						</div>
+						{users.loginError && (
+							<p className='text-red-600'>{users.loginError}</p>
+						)}
 
 						<div>
 							<button
@@ -65,13 +78,11 @@ function LoginPage() {
 					</form>
 					<p className='mt-2 text-sm text-center text-gray-600'>
 						Don't have an account?{' '}
-						<Link to={'/signup'}>
-							<a
-								href='#'
-								className='font-medium text-indigo-600 hover:text-indigo-500'
-							>
-								Sign up
-							</a>
+						<Link
+							to={'/signup'}
+							className='font-medium text-indigo-600 hover:text-indigo-500'
+						>
+							Sign up
 						</Link>
 					</p>
 				</div>

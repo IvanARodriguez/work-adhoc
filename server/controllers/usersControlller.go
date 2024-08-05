@@ -110,6 +110,7 @@ func Login(ctx *fiber.Ctx) error {
 		"username":  user.Username,
 		"email":     user.Email,
 		"createdAt": user.CreatedAt,
+		"updatedAt": user.UpdatedAt,
 	})
 	// Respond
 

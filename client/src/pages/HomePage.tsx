@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
-
 function HomePage() {
 	return (
-		<Layout>
+		<Layout currentPage='Home'>
 			<section className='bg-white min-h-full '>
 				<div className='py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-24'>
 					<h1 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-black'>
@@ -31,7 +30,7 @@ function HomePage() {
 									stroke='currentColor'
 									stroke-linecap='round'
 									stroke-linejoin='round'
-									stroke-width='2'
+									strokeWidth='2'
 									d='M1 5h12m0 0L9 1m4 4L9 9'
 								/>
 							</svg>

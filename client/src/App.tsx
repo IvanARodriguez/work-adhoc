@@ -6,14 +6,22 @@ import HomePage from './pages/HomePage'
 import CreateJobPage from './pages/CreateJobPage'
 import NotFoundPage from './pages/NotFoundPage'
 import JobsPage from './pages/JobsPage'
+import JobView from './pages/JobView'
+import { useActions } from './store'
+import { useLayoutEffect } from 'react'
 
 function App() {
+	const actions = useActions()
+	useLayoutEffect(() => {
+		actions.users.verifyAuthentication()
+	}, [])
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path='/' element={<HomePage />} />
 				<Route path='/login' element={<LoginPage />} />
 				<Route path='/jobs' element={<JobsPage />} />
+				<Route path='/jobs/:id' element={<JobView />} />
 				<Route element={<PrivateRoute />}>
 					<Route element={<CreateJobPage />} path='/jobs/create' />
 				</Route>

@@ -1,0 +1,41 @@
+/* src/Loader.css */
+.loader-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.circle {
+	width: 10px;
+	height: 10px;
+	margin: 0 -0.2px;
+	border-radius: 50%;
+	animation: pulse 1.2s infinite ease-in-out;
+}
+
+.circle1 {
+	animation-delay: -0.3s;
+}
+
+.circle2 {
+	animation-delay: -0.15s;
+}
+
+.circle3 {
+	animation-delay: 0s;
+}
+
+.circle4 {
+	animation-delay: 0.15s;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+}

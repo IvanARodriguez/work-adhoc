@@ -7,8 +7,8 @@ import { config } from './store/index.ts'
 import { Provider } from 'overmind-react'
 
 const overmind = createOvermind(config, {
-	devtools: 'localhost:3031',
-	name: 'Momentum',
+	devtools: true,
+	name: 'WorkAdHoc',
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

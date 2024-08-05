@@ -3,18 +3,19 @@ POST http://localhost:9090/api/jobs
 Content-Type: application/json
 
 {
-  "salary": "236000",
-  "title": "Software Developer 4",
-  "description": "Testing the Description of a position"
+  "salary": "90000",
+  "title": "Senior Backend Engineer With Experience in AWS and Azure",
+  "overview": "Seasoned Backend Engineer with expertise in Node.js and cloud services, focusing on creating robust and scalable applications. Adept at driving technical innovation and leading development teams.",
+  "description": "In the role of Senior Backend Engineer, you will lead the design and implementation of complex backend systems, leveraging Node.js and various cloud platforms. Your responsibilities will include architecting high-performance APIs, optimizing data storage solutions, and ensuring system reliability and scalability. You will collaborate with product managers, front-end developers, and data engineers to deliver seamless and efficient software solutions. Experience with cloud technologies like AWS or Azure, strong problem-solving skills, and the ability to mentor junior developers are crucial for this role. Your technical expertise will be critical in driving the success of our projects and aligning with business goals.",
+  "tags": [ "Node.js", "Cloud", "API", "AWS", "Microservices" ]
 }
-
 
 ### Get all Jobs
 GET http://localhost:9090/api/jobs?page=1&pageSize=2
 
 
 ### Get the created job by ID
-GET http://localhost:9090/api/jobs/e4f6ce48-41f9-449b-995a-3cfb6720de42
+GET http://localhost:9090/api/jobs/fcd48203-ba23-48df-ae08-07e384ce8ff1
 
 ### Delete the Job
 DELETE http://localhost:9090/api/jobs/{jobId}

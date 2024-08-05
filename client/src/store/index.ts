@@ -1,6 +1,7 @@
 import { namespaced } from 'overmind/config'
 import * as users from './users'
 import * as jobs from './jobs'
+import * as app from './application'
 import { IContext } from 'overmind'
 import {
 	createActionsHook,
@@ -12,6 +13,7 @@ import {
 export const config = namespaced({
 	users,
 	jobs,
+	app,
 })
 
 export type Context = IContext<typeof config>
