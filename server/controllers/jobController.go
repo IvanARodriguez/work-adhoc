@@ -10,6 +10,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type TagResponse struct {
@@ -18,6 +19,19 @@ type TagResponse struct {
 }
 
 type JobResponse struct {
+	ID          uuid.UUID     `json:"id"`
+	Title       string        `json:"title"`
+	Salary      string        `json:"salary"`
+	Description string        `json:"description"`
+	Overview    string        `json:"overview"`
+	CreatedAt   time.Time     `json:"createdAt"`
+	UpdatedAt   time.Time     `json:"updatedAt"`
+	Tags        []TagResponse `json:"tags"`
+	User        struct {
+		Username string `json:"username"`
+	} `json:"user"`
+}
+type CleanJobResponse struct {
 	ID          uuid.UUID     `json:"id"`
 	Title       string        `json:"title"`
 	Salary      string        `json:"salary"`
@@ -145,6 +159,19 @@ func DeleteJob(ctx *fiber.Ctx) error {
 	return nil
 }
 
+type JobSummaryResponse struct {
+	ID        uuid.UUID     `json:"id"`
+	Title     string        `json:"title"`
+	Salary    string        `json:"salary"`
+	Overview  string        `json:"overview"`
+	CreatedAt time.Time     `json:"createdAt"`
+	UpdatedAt time.Time     `json:"updatedAt"`
+	Tags      []TagResponse `json:"tags"`
+	User      struct {
+		Username string `json:"username"`
+	} `json:"user"`
+}
+
 func GetJobs(ctx *fiber.Ctx) error {
 	// Get pagination parameters from query string
 	pageStr := ctx.Query("page", "1")
@@ -173,8 +200,15 @@ func GetJobs(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	// Eager load the associated User data and apply pagination
-	if err := initializers.DB.Preload("Tags").Preload("User").
+	// Eager load the associated User and Tags data, select specific fields, and apply pagination
+	if err := initializers.DB.Model(&models.Job{}).
+		Select("id, title, salary, overview, created_at, updated_at, user_id").
+		Preload("Tags", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name, job_id")
+		}).
+		Preload("User", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, username")
+		}).
 		Limit(pageSize).
 		Offset(offset).
 		Order("created_at desc").
@@ -184,7 +218,7 @@ func GetJobs(ctx *fiber.Ctx) error {
 	}
 
 	// Transform the result into the desired response format
-	jobResponses := make([]JobResponse, len(jobs))
+	jobResponses := make([]JobSummaryResponse, len(jobs))
 	for i, job := range jobs {
 		tags := make([]TagResponse, len(job.Tags))
 		for j, tag := range job.Tags {
@@ -193,15 +227,14 @@ func GetJobs(ctx *fiber.Ctx) error {
 				Name: tag.Name,
 			}
 		}
-		jobResponses[i] = JobResponse{
-			ID:          job.ID,
-			Title:       job.Title,
-			Salary:      job.Salary,
-			Description: job.Description,
-			CreatedAt:   job.CreatedAt,
-			UpdatedAt:   job.UpdatedAt,
-			Tags:        tags,
-			Overview:    job.Overview,
+		jobResponses[i] = JobSummaryResponse{
+			ID:        job.ID,
+			Title:     job.Title,
+			Salary:    job.Salary,
+			CreatedAt: job.CreatedAt,
+			UpdatedAt: job.UpdatedAt,
+			Tags:      tags,
+			Overview:  job.Overview,
 			User: struct {
 				Username string `json:"username"`
 			}{

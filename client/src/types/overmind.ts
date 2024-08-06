@@ -20,7 +20,7 @@ export type Job = {
 	id: string
 	title: string
 	salary: string
-	description: string
+	description?: string
 	overview: string
 	createdAt: string
 	updatedAt: string

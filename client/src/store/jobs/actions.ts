@@ -2,13 +2,14 @@ import { Context } from '..'
 import { isErrorResponse } from '../../helpers/errorResponse'
 
 export async function getJobs({ state, effects }: Context) {
+	console.log('getting Jobs')
 	state.jobs.isLoading = true
 	const response = await effects.jobs.getJobs()
 
 	if (isErrorResponse(response)) {
 		state.jobs.isLoading = false
-		const m = await response.result.json()
-		console.log(m.message)
+		const { message } = await response.result.json()
+		console.log(message)
 		return
 	}
 	state.jobs.isLoading = false

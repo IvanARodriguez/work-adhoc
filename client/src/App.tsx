@@ -13,9 +13,11 @@ import RegisterPage from './pages/RegisterPage'
 
 function App() {
 	const actions = useActions()
+
 	useLayoutEffect(() => {
 		actions.users.verifyAuthentication()
 	}, [])
+
 	return (
 		<BrowserRouter>
 			<Routes>

@@ -17,7 +17,9 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.5.5 // indirect
 	github.com/jackc/puddle/v2 v2.2.1 // indirect
+	github.com/philhofer/fwd v1.1.2 // indirect
 	github.com/radovskyb/watcher v1.0.7 // indirect
+	github.com/tinylib/msgp v1.1.8 // indirect
 	golang.org/x/crypto v0.25.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 )

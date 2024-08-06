@@ -42,6 +42,7 @@ export async function logout({ state, effects }: Context) {
 }
 
 export async function verifyAuthentication({ state, effects }: Context) {
+	console.log('Authenticating')
 	state.users.isLoading = true
 	const res = await effects.users.confirmAuthentication()
 	if (isErrorResponse(res)) {

@@ -18,8 +18,10 @@ type CleanUser struct {
 }
 
 func Validate(ctx *fiber.Ctx) error {
-	user := ctx.Locals("user").(models.User)
-
+	user, ok := ctx.Locals("user").(models.User)
+	if !ok {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{"message": "Unauthorized"})
+	}
 	cleanUser := CleanUser{}
 	cleanUser.Username = user.Username
 	cleanUser.Email = user.Email

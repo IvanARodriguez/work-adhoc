@@ -18,12 +18,12 @@ function JobView() {
 			{jobs.isLoading ? (
 				<Loader />
 			) : (
-				<div className='max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg my-6 grid gap-4'>
-					<h2 className='text-3xl font-semibold'>{jobs.jobView.title}</h2>
+				<div className='max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg my-6 grid gap-4 h-fit'>
+					<h2 className='text-3xl font-bold'>{jobs.jobView.title}</h2>
 					<p className='text-lg text-gray-500'>Salary: {jobs.jobView.salary}</p>
-					<h3 className='text-2xl'>Overview</h3>
+					<h3 className='text-2xl font-bold'>Overview</h3>
 					<p className='text-gray-600 mb-4'>{jobs.jobView.overview}</p>
-					<h3 className='text-2xl'>Description</h3>
+					<h3 className='text-2xl font-bold'>Description</h3>
 					<p className='text-gray-700 mb-4'>{jobs.jobView.description}</p>
 					<h3>Must Know</h3>
 					<div className='mb-4'>

@@ -9,6 +9,9 @@ import (
 	"work-adhoc/models"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/utils"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -55,5 +58,30 @@ func WithAuthenticatedUser(ctx *fiber.Ctx) error {
 	} else {
 		return fiber.ErrForbidden
 	}
+
+}
+
+func SetRateLimit() fiber.Handler {
+	return limiter.New(limiter.Config{
+		Max:        100,
+		Expiration: 1 * time.Minute,
+		LimitReached: func(c *fiber.Ctx) error {
+			c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{
+				"message": "Too many requests, please try again later.",
+			})
+			return nil
+		},
+	})
+
+}
+
+func SetCSRF() fiber.Handler {
+	return csrf.New(csrf.Config{
+		KeyLookup:      "header:X-Csrf-Token",
+		CookieName:     "csrf_",
+		CookieSameSite: "Lax",
+		Expiration:     1 * time.Hour,
+		KeyGenerator:   utils.UUIDv4,
+	})
 
 }

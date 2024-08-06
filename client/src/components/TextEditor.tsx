@@ -1,5 +1,3 @@
-import './TextEditor.css'
-
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import {
 	InitialConfigType,
@@ -13,7 +11,7 @@ import { ListItemNode, ListNode } from '@lexical/list'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import Toolbar from './Toolbar'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
-import { CodeHighlightNode, CodeNode } from '@lexical/code'
+import { CodeHighlightNode } from '@lexical/code'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
 
@@ -44,12 +42,12 @@ function TextEditor() {
 	}
 
 	return (
-		<div className='container max-w-2xl mx-auto my-4'>
+		<div className='container  '>
 			<LexicalComposer initialConfig={config}>
 				<Toolbar />
 				<RichTextPlugin
 					contentEditable={
-						<ContentEditable className='border-gray-400 border-2 h-[20rem] overflow-auto contentEditable' />
+						<ContentEditable className='border-gray-200 focus:outline-gray-300 bg-gray-100 border-2 p-2 h-[20rem] overflow-auto contentEditable' />
 					}
 					placeholder={<div className='placeholder'>Enter some text...</div>}
 					ErrorBoundary={LexicalErrorBoundary}

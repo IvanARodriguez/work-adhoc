@@ -1,6 +1,7 @@
 {
 	"cSpell.words": [
 		"creds",
+		"csrf",
 		"github",
 		"godotenv",
 		"gorm",
