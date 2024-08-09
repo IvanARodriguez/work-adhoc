@@ -30,6 +30,11 @@ const theme = {
 		underline: 'editor-textUnderline',
 		underlineStrikethrough: 'editor-textUnderlineStrikethrough',
 	},
+	list: {
+		ul: 'list-disc list-inside',
+		ol: 'list-decimal list-inside',
+		listItem: 'list-disc list-inside',
+	},
 }
 
 function TextEditor() {
@@ -52,10 +57,11 @@ function TextEditor() {
 	return (
 		<div className='container'>
 			<LexicalComposer initialConfig={config}>
+				<ListPlugin />
 				<Toolbar />
 				<RichTextPlugin
 					contentEditable={
-						<ContentEditable className='border-gray-200 relative focus:outline-gray-300 bg-gray-100 border-2 p-2 h-[20rem] overflow-auto contentEditable' />
+						<ContentEditable className='border-gray-200 relative focus:outline-gray-300 bg-gray-100 border-2 p-2   h-[20rem] overflow-auto contentEditable' />
 					}
 					placeholder={
 						<div className='editor-placeholder '>Enter some text...</div>
@@ -63,7 +69,6 @@ function TextEditor() {
 					ErrorBoundary={LexicalErrorBoundary}
 				/>
 				<HistoryPlugin />
-				<ListPlugin />
 				<LinkPlugin />
 				<AutoFocusPlugin />
 				{/* <MarkdownShortcutPlugin transformers={TRANSFORMERS} /> */}

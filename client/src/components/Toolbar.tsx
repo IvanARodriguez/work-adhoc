@@ -23,15 +23,39 @@ import {
 	FaAlignLeft,
 	FaStrikethrough,
 	FaAlignRight,
+	FaListOl,
+	FaListUl,
 } from 'react-icons/fa6'
 import { $createHeadingNode, HeadingTagType } from '@lexical/rich-text'
 import { mergeRegister } from '@lexical/utils'
 import Divider from './Divider'
 import { FaAlignJustify, FaRedo, FaUndo } from 'react-icons/fa'
+import {
+	INSERT_ORDERED_LIST_COMMAND,
+	INSERT_UNORDERED_LIST_COMMAND,
+} from '@lexical/list'
+
+type ToolbarHeading = { tag: HeadingTagType; icon: IconType }
 
 function HeadingToolbarPlugin(): JSX.Element {
 	const [editor] = useLexicalComposerContext()
 	const [selectedTag, setSelectedTag] = useState<HeadingTagType | ''>('')
+	const headings: ToolbarHeading[] = [
+		{ tag: 'h1', icon: LuHeading1 },
+		{ tag: 'h2', icon: LuHeading2 },
+		{ tag: 'h3', icon: LuHeading3 },
+	]
+	const handleClick = (heading: ToolbarHeading) => {
+		editor.update(() => {
+			const selection = $getSelection()
+			$updateToolbar()
+			if ($isRangeSelection(selection)) {
+				$setBlocksType(selection, () => $createHeadingNode(heading.tag))
+				setSelectedTag(heading.tag)
+				return
+			}
+		})
+	}
 	const $updateToolbar = useCallback(() => {
 		const selection = $getSelection()
 		if ($isRangeSelection(selection)) {
@@ -41,34 +65,20 @@ function HeadingToolbarPlugin(): JSX.Element {
 	}, [])
 	return (
 		<>
-			{Array.from<{ tag: HeadingTagType; icon: IconType }>([
-				{ tag: 'h1', icon: LuHeading1 },
-				{ tag: 'h2', icon: LuHeading2 },
-				{ tag: 'h3', icon: LuHeading3 },
-			]).map((heading, i) => (
+			{headings.map((heading, i) => (
 				<button
+					type='button'
 					className={`
-				font-bold
-				rounded
-				w-[2rem]
-				h-[2rem]
-				flex
-				items-center
-				justify-center
-				${selectedTag === heading.tag ? 'bg-gray-300' : 'bg-gray-100'}`}
+					font-bold
+					rounded
+					w-[2rem]
+					h-[2rem]
+					flex
+					items-center
+					justify-center
+					${selectedTag === heading.tag ? 'bg-gray-300' : 'bg-gray-100'}`}
 					key={heading.tag + i}
-					onClick={() => {
-						editor.update(() => {
-							console.log()
-							const selection = $getSelection()
-							$updateToolbar()
-							if ($isRangeSelection(selection)) {
-								$setBlocksType(selection, () => $createHeadingNode(heading.tag))
-								setSelectedTag(heading.tag)
-								return
-							}
-						})
-					}}
+					onClick={() => handleClick(heading)}
 				>
 					<heading.icon className='h-[1.5rem] w-[1.5rem]' />
 				</button>
@@ -77,9 +87,36 @@ function HeadingToolbarPlugin(): JSX.Element {
 	)
 }
 
+type ListTag = 'ol' | 'ul'
+
+function ListToolbarPlugin(): JSX.Element {
+	const [editor] = useLexicalComposerContext()
+	const tagList: ListTag[] = ['ol', 'ul']
+
+	const handleClick = (tag: ListTag): void => {
+		editor.update(() => {
+			if (tag === 'ol') {
+				editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
+				return
+			}
+			editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+		})
+	}
+
+	return (
+		<>
+			{tagList.map((tag) => (
+				<button type='button' key={tag} onClick={() => handleClick(tag)}>
+					{tag === 'ol' ? <FaListOl /> : <FaListUl />}
+				</button>
+			))}
+		</>
+	)
+}
+
 function Toolbar() {
 	const [editor] = useLexicalComposerContext()
-	const toolbarRef = useRef(null)
+	// const toolbarRef = useRef(null)
 	const [canUndo, setCanUndo] = useState(false)
 	const [canRedo, setCanRedo] = useState(false)
 	const [isBold, setIsBold] = useState(false)
@@ -135,6 +172,7 @@ function Toolbar() {
 	return (
 		<div className='w-full flex flex-wrap gap-2 overflow-auto p-1'>
 			<button
+				type='button'
 				disabled={!canUndo}
 				onClick={() => {
 					editor.dispatchCommand(UNDO_COMMAND, undefined)
@@ -153,6 +191,7 @@ function Toolbar() {
 				<FaUndo />
 			</button>
 			<button
+				type='button'
 				disabled={!canRedo}
 				onClick={() => {
 					editor.dispatchCommand(REDO_COMMAND, undefined)
@@ -172,6 +211,7 @@ function Toolbar() {
 			</button>
 			<Divider useVertical />
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
 				}}
@@ -189,6 +229,7 @@ function Toolbar() {
 				<FaBold />
 			</button>
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
 				}}
@@ -206,6 +247,7 @@ function Toolbar() {
 				<FaItalic />
 			</button>
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
 				}}
@@ -223,6 +265,7 @@ function Toolbar() {
 				<FaUnderline />
 			</button>
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
 				}}
@@ -241,6 +284,7 @@ function Toolbar() {
 			</button>
 			<Divider useVertical />
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
 				}}
@@ -258,6 +302,7 @@ function Toolbar() {
 				<FaAlignLeft />
 			</button>
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
 				}}
@@ -275,6 +320,7 @@ function Toolbar() {
 				<FaAlignCenter />
 			</button>
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
 				}}
@@ -292,6 +338,7 @@ function Toolbar() {
 				<FaAlignRight />
 			</button>
 			<button
+				type='button'
 				onClick={() => {
 					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
 				}}
@@ -310,6 +357,7 @@ function Toolbar() {
 			</button>
 			<Divider useVertical />
 			<HeadingToolbarPlugin />
+			<ListToolbarPlugin />
 		</div>
 	)
 }
